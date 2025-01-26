@@ -40,6 +40,8 @@ class GR1DexDataset3D(BaseDataset):
         self.replay_buffer = ReplayBuffer.copy_from_path(
             zarr_path, keys=buffer_keys)
         
+        print("self.replay_buffer: ", self.replay_buffer)
+
         val_mask = get_val_mask(
             n_episodes=self.replay_buffer.n_episodes, 
             val_ratio=val_ratio,

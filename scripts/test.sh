@@ -2,8 +2,11 @@
 
 #   bash scripts/train_policy.sh idp3 gr1_dex-3d 0913_example
 #   bash scripts/train_policy.sh dp_224x224_r3m gr1_dex-image 0913_example
+# bash scripts/test.sh idp3 idp3_bimanual stack_blocks
 
-dataset_path=/home/jiahe/Improved-3D-Diffusion-Policy/training_data_example
+#  bash scripts/test.sh idp3 idp3_bimanual stack_blocks
+
+dataset_path=/home/jiahe/Improved-3D-Diffusion-Policy/stack_blocks_data
 
 
 DEBUG=False
@@ -39,7 +42,7 @@ cd Improved-3D-Diffusion-Policy
 export HYDRA_FULL_ERROR=1 
 export CUDA_VISIBLE_DEVICES=${gpu_id}
 
-python train.py --config-name=${config_name}.yaml \
+python test.py --config-name=${config_name}.yaml \
                             task=${task_name} \
                             hydra.run.dir=${run_dir} \
                             training.debug=$DEBUG \

@@ -132,8 +132,8 @@ class iDP3Encoder(nn.Module):
 
         self.n_output_channels  += output_dim
         self.state_mlp = nn.Sequential(*create_mlp(self.state_shape[0], output_dim, net_arch, state_mlp_activation_fn))
-
-        cprint(f"[DP3Encoder] output dim: {self.n_output_channels}", "red")
+        # cprint(f"[DP3Encoder] output_dim: {output_dim}", "red")
+        cprint(f"[DP3Encoder] n_output_channels: {self.n_output_channels}", "red")
 
 
     def forward(self, observations: Dict) -> torch.Tensor:
@@ -148,7 +148,12 @@ class iDP3Encoder(nn.Module):
         pn_feat = self.extractor(points)    # B * out_channel
          
         state = observations[self.state_key]
+        # print("state: ", state.shape)
+        # print("state_mlp: ", self.state_mlp)
         state_feat = self.state_mlp(state)  # B * 64
+
+        # print("pn_feat: ", pn_feat.shape)
+        # print("state_feat: ", state_feat.shape)        
         final_feat = torch.cat([pn_feat, state_feat], dim=-1)
         return final_feat
 

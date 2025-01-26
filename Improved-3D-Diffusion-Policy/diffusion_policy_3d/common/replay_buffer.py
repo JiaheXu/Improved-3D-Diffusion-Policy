@@ -155,6 +155,9 @@ class ReplayBuffer:
         Load to memory.
         """
         src_root = zarr.group(src_store)
+        print("src_root: ", src_root)
+        print("store: ", store)
+        
         root = None
         if store is None:
             # numpy backend
@@ -204,6 +207,8 @@ class ReplayBuffer:
                         chunks=cks, compressor=cpr, if_exists=if_exists
                     )
         buffer = cls(root=root)
+        # from pdb import set_trace
+        # set_trace()
         for key, value in buffer.items():
             try:
                 cprint(f'Replay Buffer: {key}, shape {value.shape}, dtype {value.dtype}, range {value.min():.2f}~{value.max():.2f}', 'green')
@@ -226,6 +231,7 @@ class ReplayBuffer:
             print('backend argument is deprecated!')
             store = None
         group = zarr.open(os.path.expanduser(zarr_path), 'r')
+        print("group: ", group)
         return cls.copy_from_store(src_store=group.store, store=store, 
             keys=keys, chunks=chunks, compressors=compressors, 
             if_exists=if_exists, **kwargs)
