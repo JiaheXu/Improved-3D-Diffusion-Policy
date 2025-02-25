@@ -125,7 +125,7 @@ right_tip_bias = np.array( env.get("right_ee_2_right_tip") )
 right_tip_bias2 = np.array( env.get("right_ee_2_right_tip2") )
 right_tip_bias3 = np.array( env.get("right_ee_2_right_tip3") )
 
-task_name = "insert_marker_into_cup"
+task_name = "straighten_rope"
 data_idx = 21
 
 
@@ -447,7 +447,10 @@ def main(cfg: OmegaConf):
     step_count = 0
     
     while step_count < roll_out_length:
-        print("obs_dict: ", obs_dict['point_cloud'].shape, " ", obs_dict['agent_pos'].shape)
+        print("obs_dict: ")
+        print("point_cloud: ", obs_dict['point_cloud'].shape)
+        print("agent_pos", obs_dict['agent_pos'].shape)
+        print("obs_dict: ", obs_dict)
         with torch.no_grad():
             action = policy(obs_dict)[0]
             action_list = [act.numpy() for act in action]

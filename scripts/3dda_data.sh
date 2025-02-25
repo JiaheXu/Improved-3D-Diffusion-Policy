@@ -6,7 +6,7 @@
 
 #  bash scripts/test.sh idp3 idp3_bimanual stack_blocks
 
-dataset_path=/home/jiahe/Improved-3D-Diffusion-Policy/stack_blocks_data
+dataset_path=/home/jiahe/Improved-3D-Diffusion-Policy/data/${3}_data
 
 
 DEBUG=False
@@ -19,7 +19,7 @@ config_name=${alg_name}
 addition_info=${3}
 seed=0
 exp_name=${task_name}-${alg_name}-${addition_info}
-run_dir="data/outputs/${exp_name}_seed${seed}"
+run_dir="data/outputs/${exp_name}_${addition_info}"
 
 gpu_id=0
 echo -e "\033[33mgpu id (to use): ${gpu_id}\033[0m"
