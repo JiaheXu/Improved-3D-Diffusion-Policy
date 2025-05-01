@@ -125,7 +125,7 @@ right_tip_bias = np.array( env.get("right_ee_2_right_tip") )
 right_tip_bias2 = np.array( env.get("right_ee_2_right_tip2") )
 right_tip_bias3 = np.array( env.get("right_ee_2_right_tip3") )
 
-task_name = "straighten_rope"
+task_name = "pickup_plate"
 data_idx = 21
 
 
@@ -275,7 +275,7 @@ class BimanualEnvInference:
             self.action_array.append(act)
             # act = action_util.joint25_to_joint32(act)
             left_cmds = act[0:6]
-            right_cmds = act[7:14]            
+            right_cmds = act[7:13]            
             follower_bot_left.arm.set_joint_positions(left_cmds, blocking=False)
             follower_bot_right.arm.set_joint_positions(right_cmds, blocking=False)
 
@@ -452,8 +452,13 @@ def main(cfg: OmegaConf):
         print("agent_pos", obs_dict['agent_pos'].shape)
         print("obs_dict: ", obs_dict)
         with torch.no_grad():
+
+            torch.cuda.synchronize()
+            start = time.time()
             action = policy(obs_dict)[0]
             action_list = [act.numpy() for act in action]
+            end = time.time()
+            print("idp3 inference took: ", end - start)
         
         obs_dict = env.step(action_list)
         step_count += action_horizon
